@@ -32,17 +32,21 @@ events {
 1. 默认 轮询
 
 ```bash
-pid = 24 2718 connection
-pid = 25 3029 connection
-pid = 26 2551 connection
-pid = 27 3336 connection
+pid = 24 3303 connection
+pid = 25 3450 connection
+pid = 26 3379 connection
+pid = 27 3322 connection
 ```
 
 2. hash $remote_addr;
 
 ```bash
-pid = 23 2497 connection
-pid = 24 2114 connection
-pid = 25 2242 connection
-pid = 26 1967 connection
+pid = 24 5363 connection
+pid = 25 5315 connection
+pid = 26 2447 connection
+pid = 27 5082 connection
 ```
+
+## Jmter
+
+一台压力机的 Jmeter 默认最大支持 1000 左右的并发用户数（线程数）
