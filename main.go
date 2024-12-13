@@ -35,7 +35,7 @@ func NacosSetup() {
 	}
 
 	cc := *constant.NewClientConfig(
-		constant.WithNamespaceId("srv-system"),
+		constant.WithNamespaceId(""),
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
 		constant.WithLogDir("/tmp/nacos/log"),
@@ -71,6 +71,7 @@ func NacosSetup() {
 		Healthy:     true,
 		Ephemeral:   true,
 	})
+	fmt.Println("register service success")
 }
 
 // 获取一个健康的实例
