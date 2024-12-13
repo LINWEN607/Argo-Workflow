@@ -116,7 +116,7 @@ func ServerSetup() {
 
 func hello(c *gin.Context) {
 	name := c.Param("name")
-	c.JSON(http.StatusOK, fmt.Sprintf("hello :%s", name))
+	c.JSON(http.StatusOK, fmt.Sprintf("hello v2:%s", name))
 }
 
 // 获取指定的配置

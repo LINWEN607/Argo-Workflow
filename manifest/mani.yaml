@@ -16,7 +16,8 @@ spec:
         app: go-gin
     spec:
       containers:
-      - image: eilinge/go-gin:v1.0
+      - image: eilinge/go-gin:v1.1
+        imagePullPolicy: IfNotPresent
         name: go-gin
         ports:
         - containerPort: 8080
