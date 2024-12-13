@@ -22,7 +22,7 @@ var ServiceName = "client-go"
 
 func main() {
 	// nacos 初始化
-	NacosSetup()
+	// NacosSetup()
 	// 初始化web服务器
 	ServerSetup()
 }
@@ -110,8 +110,8 @@ func getHostIp() string {
 func ServerSetup() {
 	r := gin.Default()
 	r.GET("/hello/:name", hello)
-	r.GET("/config", getSpecifiedConfig)
-	r.Run(":8777")
+	// r.GET("/config", getSpecifiedConfig)
+	r.Run(":8080")
 }
 
 func hello(c *gin.Context) {
