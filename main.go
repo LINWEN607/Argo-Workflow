@@ -110,8 +110,15 @@ func getHostIp() string {
 func ServerSetup() {
 	r := gin.Default()
 	r.GET("/hello/:name", hello)
+	r.GET("/ping", health)
 	// r.GET("/config", getSpecifiedConfig)
 	r.Run(":8080")
+}
+
+func health(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "pong",
+	})
 }
 
 func hello(c *gin.Context) {
