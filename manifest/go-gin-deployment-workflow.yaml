@@ -196,6 +196,8 @@ spec:
                   name: {{inputs.parameters.servername}}
                   ports:
                   - containerPort: {{inputs.parameters.port}}
+                    name: web                                 
+                    protocol: TCP
                   readinessProbe:
                     httpGet:
                       path: /ping
