@@ -11,27 +11,21 @@ spec:
           eventName: example
           filters:
               data:
-                  # Type of Github event that triggered the delivery: [pull_request, push, issues, label, ...]
+                  # Type of Github event that triggered the delivery: [push, push, issues, label, ...]
                   # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
                   - path: headers.X-Github-Event
                     type: string
                     value:
-                        - pull_request
-                  - path: body.action
-                    type: string
-                    value:
-                        - opened
-                        - edited
-                        - reopened
-                        - synchronize
-                  - path: body.pull_request.state
-                    type: string
-                    value:
-                        - open
-                  - path: body.pull_request.base.ref
+                        - push
+                  - path: body.ref
                     type: string
                     value:
                         - master
+                        - "refs/heads/master"
+                  - path: body.title
+                    type: string
+                    value:
+                        - test
     triggers:
         - template:
               name: github-workflow-trigger
@@ -48,37 +42,20 @@ spec:
                               arguments:
                                   parameters:
                                       - name: pr-title
-                                      - name: pr-number
-                                      - name: short-sha
                               templates:
                                   - name: whalesay
                                     inputs:
                                         parameters:
                                             - name: pr-title
-                                            - name: pr-number
-                                            - name: short-sha
                                     container:
                                         image: docker/whalesay:latest
+                                        imagePullPolicy: IfNotPresent
                                         command: [cowsay]
                                         args: ["{{inputs.parameters.pr-title}}"]
                   parameters:
                       - src:
                             dependencyName: test-dep
-                            dataKey: body.pull_request.title
+                            dataKey: body.title
                         dest: spec.arguments.parameters.0.value
-                      - src:
-                            dependencyName: test-dep
-                            dataKey: body.pull_request.number
-                        dest: spec.arguments.parameters.1.value
-                      - src:
-                            dependencyName: test-dep
-                            dataTemplate: "{{ .Input.body.pull_request.head.sha | substr 0 7 }}"
-                        dest: spec.arguments.parameters.2.value
-                      # Append pull request number and short sha to dynamically assign workflow name <github-21500-2c065a>
-                      - src:
-                            dependencyName: test-dep
-                            dataTemplate: "{{ .Input.body.pull_request.number }}-{{ .Input.body.pull_request.head.sha | substr 0 7 }}"
-                        dest: metadata.name
-                        operation: append
           retryStrategy:
               steps: 3
