@@ -114,6 +114,14 @@ spec:
           - mountPath: /work
             name: work
         workingDir: /work/{{inputs.parameters.path}}
+        env:
+          # Because this is not a Gomodule, we must turn modules off.
+          - name: GO111MODULE
+            value: "on"
+          - name: CGO_ENABLED
+            value: "0"
+          - name: GOPROXY
+            value: "https://goproxy.cn,direct"
         command:
           - go
         args:
