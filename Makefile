@@ -15,4 +15,4 @@ run:
 	@docker-compose -f $(COMPOSE_FILE) up -d
 
 # Phony targets
-.PHONY: build run
+.PHONY: gotest build run
