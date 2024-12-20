@@ -44,13 +44,20 @@ spec:
                   value: "{{workflow.parameters.repo}}"
                 - name: branch
                   value: "{{workflow.parameters.branch}}"
+          - name: gotest
+            template: gotest
+            arguments:
+              parameters:
+                - name: path
+                  value: "{{workflow.parameters.path}}"
+            depends: "clone"
           - name: build
             template: build
             arguments:
               parameters:
                 - name: path
                   value: "{{workflow.parameters.path}}"
-            depends: "clone"
+            depends: "gotest"
           - name: image
             template: image
             arguments:
@@ -96,6 +103,23 @@ spec:
           - --single-branch
           - "{{inputs.parameters.repo}}"
           - .
+
+    - name: gotest
+      inputs:
+        parameters:
+          - name: path
+      container:
+        image: golang:1.22.5
+        volumeMounts:
+          - mountPath: /work
+            name: work
+        workingDir: /work/{{inputs.parameters.path}}
+        command:
+          - go
+        args:
+          - test
+          - -v
+          - ./...
 
     - name: build
       inputs:
