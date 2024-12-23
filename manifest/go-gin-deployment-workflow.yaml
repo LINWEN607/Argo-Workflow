@@ -19,8 +19,6 @@ spec:
         value: argo
       - name: port
         value: 8080
-      - name: clusterIP
-        value: "10.43.242.68"
 
   entrypoint: main
   # We use a volume claim template so that we can have a shared workspace.
@@ -228,7 +226,7 @@ spec:
                   name: {{inputs.parameters.servername}}
                   ports:
                   - containerPort: {{inputs.parameters.port}}
-                    name: web                                 
+                    name: web
                     protocol: TCP
                   readinessProbe:
                     httpGet:

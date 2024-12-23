@@ -11,7 +11,7 @@ spec:
           eventName: example
           filters:
               data:
-                  # Type of Github event that triggered the delivery: [push, push, issues, label, ...]
+                  # Type of Github event that triggered the delivery: [pull, push, issues, label, ...]
                   # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
                   - path: headers.X-Github-Event
                     type: string
@@ -22,40 +22,16 @@ spec:
                     value:
                         - master
                         - "refs/heads/master"
-                  - path: body.title
-                    type: string
-                    value:
-                        - test
     triggers:
         - template:
               name: github-workflow-trigger
-              k8s:
-                  operation: create
+              argoWorkflow:
+                  operation: resubmit  # resubmit argo workflow
                   source:
                       resource:
                           apiVersion: argoproj.io/v1alpha1
                           kind: Workflow
                           metadata:
-                              generateName: github-
-                          spec:
-                              entrypoint: whalesay
-                              arguments:
-                                  parameters:
-                                      - name: pr-title
-                              templates:
-                                  - name: whalesay
-                                    inputs:
-                                        parameters:
-                                            - name: pr-title
-                                    container:
-                                        image: docker/whalesay:latest
-                                        imagePullPolicy: IfNotPresent
-                                        command: [cowsay]
-                                        args: ["{{inputs.parameters.pr-title}}"]
-                  parameters:
-                      - src:
-                            dependencyName: test-dep
-                            dataKey: body.title
-                        dest: spec.arguments.parameters.0.value
+                              name: buildkit-gogin-dwf29 # workflow name exists in argo workflow
           retryStrategy:
               steps: 3
