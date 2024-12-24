@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github
+spec:
+  service:
+    ports:
+      - name: example
+        port: 12000
+        targetPort: 12000
+  github:
+    example:
+      repositories:
+        - owner: jackwillsmith
+          names:
+            - go-gin
+      webhook:
+        # endpoint to listen to events on
+        endpoint: /push
+        # port to run internal HTTP server on
+        port: "12000"
+        # HTTP request method to allow. In this case, only POST requests are accepted
+        method: POST
+      events:
+        - "push"
+
+      # type of the connection between event-source and Github.
+      # You should set it to false to avoid man-in-the-middle and other attacks.
+      insecure: true
+      # Determines if notifications are sent when the webhook is triggered
+      active: true
+      # The media type used to serialize the payloads
+      contentType: json
