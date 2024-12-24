@@ -75,8 +75,6 @@ spec:
                   value: "{{workflow.parameters.namespace}}"
                 - name: image
                   value: "{{workflow.parameters.image}}"
-                - name: port
-                  value: "{{workflow.parameters.port}}"
             depends: "image"
 
     - name: clone
@@ -199,7 +197,6 @@ spec:
           - name: servername
           - name: namespace
           - name: image
-          - name: port
       resource:
         action: patch
         manifest: |
@@ -208,36 +205,12 @@ spec:
           metadata:
             name: {{inputs.parameters.servername}}
             namespace: {{inputs.parameters.namespace}}
-            labels:
-              app: {{inputs.parameters.servername}}
           spec:
-            replicas: 1
-            selector:
-              matchLabels:
-                app: {{inputs.parameters.servername}}
             template:
               metadata:
-                labels:
-                  app: {{inputs.parameters.servername}}
+                creationTimestamp: "{{workflow.creationTimestamp}}"
               spec:
                 containers:
-                - image: {{inputs.parameters.image}}
-                  imagePullPolicy: IfNotPresent
-                  name: {{inputs.parameters.servername}}
-                  ports:
-                  - containerPort: {{inputs.parameters.port}}
-                    name: web
-                    protocol: TCP
-                  readinessProbe:
-                    httpGet:
-                      path: /ping
-                      port: web
-                    initialDelaySeconds: 5
-                    timeoutSeconds: 1
-                  resources:
-                    requests:
-                      cpu: 100m
-                      memory: 100Mi
-                    limits:
-                      cpu: 300m
-                      memory: 300Mi
+                - image: "{{inputs.parameters.image}}"
+                  name: "{{inputs.parameters.servername}}"
+
