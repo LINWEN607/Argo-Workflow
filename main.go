@@ -111,6 +111,7 @@ func ServerSetup() {
 	r := gin.Default()
 	r.GET("/hello/:name", hello)
 	r.GET("/ping", health)
+	r.GET("/v2/hello/:name", hello)
 	// r.GET("/config", getSpecifiedConfig)
 	r.Run(":8080")
 }

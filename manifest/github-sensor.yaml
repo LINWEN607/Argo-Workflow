@@ -17,10 +17,6 @@ spec:
                     type: string
                     value:
                         - push
-                  - path: headers.X-Github-Token
-                    type: string
-                    value:
-                        - tester123?
                   - path: body.ref
                     type: string
                     value:
