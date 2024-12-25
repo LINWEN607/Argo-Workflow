@@ -55,6 +55,19 @@ argocd-notifications-controller-69cd888b56-frrwd    1/1     Running   8 (5h23m a
 argocd-redis-855694d977-gmzmb                       1/1     Running   3 (28h ago)     10d
 argocd-repo-server-584d45d88f-88hkp                 1/1     Running   5 (5h23m ago)   4d4h
 argocd-server-8667f8577-whgwn                       1/1     Running   4 (5h24m ago)   4d4h
+
+27hV7dP49w5x5dD6root@master:/home/eilinge/argo-cd# kubectl -n argocd get svcNAME                                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+argocd-applicationset-controller          ClusterIP   10.43.24.111    <none>        7000/TCP,8080/TCP            11d
+argocd-dex-server                         ClusterIP   10.43.40.214    <none>        5556/TCP,5557/TCP,5558/TCP   11d
+argocd-metrics                            ClusterIP   10.43.73.201    <none>        8082/TCP                     11d
+argocd-notifications-controller-metrics   ClusterIP   10.43.65.142    <none>        9001/TCP                     11d
+argocd-redis                              ClusterIP   10.43.107.228   <none>        6379/TCP                     11d
+argocd-repo-server                        ClusterIP   10.43.176.112   <none>        8081/TCP,8084/TCP            11d
+argocd-server                             NodePort    10.43.238.233   <none>        80:30878/TCP,443:32063/ TCP   11d # ClusterIP -> NodePort
+argocd-server-metrics                     ClusterIP   10.43.82.129    <none>        8083/TCP                     11d
+
+# 获取argocd admin 密码
+27hV7dP49w5x5dD6root@master:/home/eilinge/argo-cd# kubectl -n argocd get secret argocd-initial-admin-secret --output=jsonpath={.data.password} |base64 -d
 ```
 
 
