@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 kubectl create namespace argocd
@@ -21,3 +22,37 @@ kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-
 kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/master/examples/rbac/sensor-rbac.yaml
  # workflow rbac
 kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/master/examples/rbac/workflow-rbac.yaml
+
+#sa
+kubectl create serviceaccount argoweb -n argo
+
+#ClusterRole
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: argoweb-clusterrole-full-access
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+EOF
+
+#ClusterRoleBinding
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argoweb-clusterrolebinding-full-access
+subjects:
+- kind: ServiceAccount
+  name: argoweb
+  namespace: argo  # 确保命名空间正确
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argoweb-clusterrole-full-access
+
+  #TOKEN
+  ARGO_TOKEN="Bearer $(kubectl get secret argoweb.service-account-token -n argo -o=jsonpath='{.data.token}' | base64 --decode)"
+  echo $ARGO_TOKEN
