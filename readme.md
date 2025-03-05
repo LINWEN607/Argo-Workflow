@@ -1,3 +1,11 @@
+#流程简析
+#1.GitHub Webhook设置：在GitHub仓库设置webhook，指向Argo Sensor服务。
+#2.监听Push事件：Argo Sensor监听GitHub push事件。
+#3.触发Workflow：当检测到push事件时，Argo Sensor触发预定义的Argo Workflow。
+#4.自动化构建与部署：Argo Workflow执行自动化构建和部署任务。
+#5.访问应用：用户通过Ingress或LoadBalancer访问部署的应用。
+
+
 # argo ci/cd
 
 ## Argo CD
