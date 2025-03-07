@@ -21,7 +21,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 # argo workflow
 ARGO_WORKFLOWS_VERSION="v3.6.2"
 kubectl create namespace argo
-kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
+kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.6.4/install.yaml
 
 # argo events
 kubectl create namespace argo-events
